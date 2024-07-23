@@ -1,0 +1,20 @@
+{
+  "name": "secureauthjwt",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "ts-node ./tests/jwt.test.ts",
+    "start": "ts-node index.ts"
+  },
+  "author": "Aditya Agarwal",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^20.14.11",
+    "jest": "^29.7.0",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "ts-node": "^10.9.2"
+  }
+}
