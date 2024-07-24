@@ -1,4 +1,4 @@
-import crypto from "crypto";
+import * as crypto from "crypto";
 
 interface Payload {
   [key: string]: any;
@@ -57,8 +57,6 @@ export function decode_jwt(
   issuer?: string;
 } {
   const [header, payload, signature] = token.split(".");
-
-  const base64UrlHeader = base64UrlDecode(header);
   const base64UrlPayload = base64UrlDecode(payload);
 
   const expectedSignature = base64UrlEncode(

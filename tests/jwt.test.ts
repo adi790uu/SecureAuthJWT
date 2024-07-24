@@ -1,6 +1,6 @@
 import test, { describe } from "node:test";
 import { validate_jwt, decode_jwt, encode_jwt } from "..";
-import assert from "node:assert";
+import { strict as assert } from "node:assert";
 
 describe("JWT tests", () => {
   const secret = "Rand3om";
