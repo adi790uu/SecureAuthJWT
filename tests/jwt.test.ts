@@ -10,14 +10,14 @@ describe("JWT tests", () => {
   const aud = "https://api.jwt.com";
   const iss = "https://api.issuer.com";
 
-  test("Successfull encoding of token with various parameters", () => {
-    const token = encode_jwt(secret, id, payload, ttl, aud, iss);
+  test("Successfull encoding of token with various parameters", async () => {
+    const token = await encode_jwt(secret, id, payload, ttl, aud, iss);
     assert.ok(token);
     assert.equal(typeof token, "string");
   });
-  test("should decode JWT and verify payload", () => {
-    const token = encode_jwt(secret, id, payload, ttl, aud, iss);
-    const decoded = decode_jwt(secret, token);
+  test("should decode JWT and verify payload", async () => {
+    const token = await encode_jwt(secret, id, payload, ttl, aud, iss);
+    const decoded = await decode_jwt(secret, token);
     assert.equal(decoded.id, id);
     assert.equal(decoded.payload.name, payload.name);
     assert.equal(decoded.payload.admin, payload.admin);
@@ -25,8 +25,8 @@ describe("JWT tests", () => {
     assert.equal(decoded.payload.iss, iss);
   });
 
-  test("should throw error for invalid JWT signature", () => {
-    const token = encode_jwt(secret, id, payload, ttl, aud, iss);
+  test("should throw error for invalid JWT signature", async () => {
+    const token = await encode_jwt(secret, id, payload, ttl, aud, iss);
     const [header, body] = token.split(".");
     const invalidToken = `${header}.${body}.invalidsignature`;
 
@@ -35,21 +35,21 @@ describe("JWT tests", () => {
     });
   });
 
-  test("should validate a valid JWT", () => {
-    const token = encode_jwt(secret, id, payload, ttl, aud, iss);
-    const isValid = validate_jwt(secret, token);
+  test("should validate a valid JWT", async () => {
+    const token = await encode_jwt(secret, id, payload, ttl, aud, iss);
+    const isValid = await validate_jwt(secret, token);
     assert.equal(isValid, true);
   });
 
-  test("should invalidate an expired JWT", () => {
+  test("should invalidate an expired JWT", async () => {
     const expiredTTL = -3600;
-    const token = encode_jwt(secret, id, payload, expiredTTL, aud, iss);
-    const isValid = validate_jwt(secret, token);
+    const token = await encode_jwt(secret, id, payload, expiredTTL, aud, iss);
+    const isValid = await validate_jwt(secret, token);
     assert.equal(isValid, false);
   });
 
-  test("should invalidate a JWT with invalid signature", () => {
-    const token = encode_jwt(secret, id, payload, ttl, aud, iss);
+  test("should invalidate a JWT with invalid signature", async () => {
+    const token = await encode_jwt(secret, id, payload, ttl, aud, iss);
     const [header, body] = token.split(".");
     const invalidToken = `${header}.${body}.invalidsignature`;
 
